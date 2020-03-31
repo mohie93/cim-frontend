@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import InspectionSlotItem from "./item";
-
+import BookingForm from "../Booking/Form";
 export default class list extends Component {
   weekWorkingDays = {
     "1": "Mon",
@@ -50,11 +50,34 @@ export default class list extends Component {
 
   render() {
     const day = this.props.day;
-    const slotsInOneHour = this.getNumberOfSlotsInOneHour( new Date(this.props.day).getDay() );
+    const slotsInOneHour = this.getNumberOfSlotsInOneHour(
+      new Date(this.props.day).getDay()
+    );
     const slotsList = this.getSlots(slotsInOneHour);
-    const slots = [...this.getWorkingSlots({min: 9, max:12}, slotsList), ...this.getWorkingSlots({min: 1, max:6}, slotsList)];
-    return slots.length > 0 ? slots.map((slot, index) => (
-      <InspectionSlotItem day={day} slot={slot} key={index} /> 
-    )) : <div>No Slot Available</div>
+    const slots = [
+      ...this.getWorkingSlots({ min: 9, max: 12 }, slotsList),
+      ...this.getWorkingSlots({ min: 1, max: 6 }, slotsList)
+    ];
+    return slots.length > 0 ? (
+      <div className="container">
+        <div className="row mb-4 justify-content-md-center">
+          <BookingForm />
+        </div>
+        <div className="row">
+          <div className="alert alert-primary col-md-12 text-center">
+            Available Slots
+          </div>
+        </div>
+        <div className="row">
+          {slots.map((slot, index) => (
+            <InspectionSlotItem day={day} slot={slot} key={index} />
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div className="alert alert-danger col-md-12 text-center">
+        No Slot Available
+      </div>
+    );
   }
 }
