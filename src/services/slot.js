@@ -12,7 +12,9 @@ const book = async options => {
     },
     data: options
   };
-  return await axios(params);
+  const res = await axios(params);
+  console.log('res', res);
+  return res;
 };
 
 const all = async () => {
