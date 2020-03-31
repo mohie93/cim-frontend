@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import Calendar from "./components/Calendar";
 import InspectionSlotList from "./components/InspectionSlot/list";
+import Slot from "./services/slot";
 export default class App extends Component {
   state = {
     selectedDay: new Date(),
     selectedSlot: "",
     fullName: "",
     plateNumber: "",
-    errors: []
+    errors: [],
+    slots: []
   };
 
   handleCalendarChange = selectedDay => {
@@ -32,6 +34,11 @@ export default class App extends Component {
     }, 4000);
   };
 
+  componentDidMount = async () => {
+    const response = await Slot.all();
+    this.setState({ slots: response.data.records });
+  };
+
   submit = options => {
     const { slot, fullName, plateNumber } = options;
     const errors = [];
@@ -46,6 +53,7 @@ export default class App extends Component {
   };
 
   render() {
+    const slots = this.state.slots;
     const errors = this.state.errors;
     const selectedDay = this.state.selectedDay
       ? this.state.selectedDay
