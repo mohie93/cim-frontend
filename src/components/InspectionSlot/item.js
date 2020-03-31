@@ -5,6 +5,7 @@ export default class item extends Component {
     selectedSlotValue: null,
     selectedSlotClass: "btn btn-primary m-2"
   };
+
   handleSlotClick = e => {
     this.setState({
       selectedSlotValue: e.target.value,
@@ -12,6 +13,7 @@ export default class item extends Component {
     });
     e.target.class = this.state.selectedSlotClass;
     this.unselectSlots(e.target);
+    this.props.handleSelect({slot: e.target.value});
   };
 
   unselectSlots = element => {

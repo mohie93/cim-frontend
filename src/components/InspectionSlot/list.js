@@ -48,6 +48,14 @@ export default class list extends Component {
     return workingSlots;
   };
 
+  handleSubmit = options => {
+    this.props.submit(options);
+  };
+
+  select = options => {
+    this.props.select(options);
+  };
+
   render() {
     const day = this.props.day;
     const slotsInOneHour = this.getNumberOfSlotsInOneHour(
@@ -60,18 +68,23 @@ export default class list extends Component {
     ];
     return slots.length > 0 ? (
       <div className="container">
-        <div className="row mb-4 justify-content-md-center">
-          <BookingForm />
-        </div>
         <div className="row">
           <div className="alert alert-primary col-md-12 text-center">
             Available Slots
           </div>
         </div>
-        <div className="row">
+        <div className="row" style={listContainerStyle}>
           {slots.map((slot, index) => (
-            <InspectionSlotItem day={day} slot={slot} key={index} />
+            <InspectionSlotItem
+              day={day}
+              slot={slot}
+              key={index}
+              handleSelect={this.select}
+            />
           ))}
+        </div>
+        <div className="row mb-4 mt-4 justify-content-md-center">
+          <BookingForm submit={this.handleSubmit} />
         </div>
       </div>
     ) : (
@@ -81,3 +94,8 @@ export default class list extends Component {
     );
   }
 }
+
+const listContainerStyle = {
+  height: "300px",
+  overflow: "overlay"
+};
